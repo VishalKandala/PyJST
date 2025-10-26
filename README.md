@@ -1,4 +1,10 @@
-# Py-ler
-This is a 2-D Finite Volume solver that solves the Euler equations (Laminar, Inviscid flow)
-The solver is based on the famous Jameson-Turkel-Schmidt (JST) scheme.
-Implements Explicit euler psuedo time marching.
+# Py-ler: A 2D Euler Solver with JST Scheme
+
+This is a 2D Finite Volume solver in Python for the Euler equations (laminar, inviscid flow). The solver is based on the Jameson-Schmidt-Turkel (JST) scheme for stable shock capturing in transonic regimes.
+
+## Key Features
+- **Scheme:** Jameson-Schmidt-Turkel (JST)
+- **Method:** Cell-centered Finite Volume
+- **Physics:** 2D Compressible Euler Equations
+
+## Result: Flow over a NACA 0012 Airfoil
