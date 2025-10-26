@@ -6,5 +6,3 @@ This is a 2D Finite Volume solver in Python for the Euler equations (laminar, in
 - **Scheme:** Jameson-Schmidt-Turkel (JST)
 - **Method:** Cell-centered Finite Volume
 - **Physics:** 2D Compressible Euler Equations
-
-## Result: Flow over a NACA 0012 Airfoil
