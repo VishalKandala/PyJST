@@ -1,0 +1,202 @@
+{
+  "benchmark": "PyJST four-stage pseudo-time iteration (median wall-clock time)",
+  "runtime": {
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "numpy": "2.0.2",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35"
+  },
+  "samples": [
+    {
+      "case": "straight-channel",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.011532419499985735,
+      "cell_updates_per_second": 355172.65045770025,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.038793824499975926,
+      "cell_updates_per_second": 422335.26111894863,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.18370763099994747,
+      "cell_updates_per_second": 356740.7605404195,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.7944945084999517,
+      "cell_updates_per_second": 329950.6758013242,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 4.077677856500031,
+      "cell_updates_per_second": 257150.27937494256,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 18.82394309850008,
+      "cell_updates_per_second": 222817.50311571057,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.0133316005000097,
+      "cell_updates_per_second": 307239.9296691361,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.04169114199999058,
+      "cell_updates_per_second": 392985.15737476567,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.1970930945000191,
+      "cell_updates_per_second": 332512.9181529678,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.8712814369999933,
+      "cell_updates_per_second": 300871.7836370041,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 4.410281662499983,
+      "cell_updates_per_second": 237757.15027815505,
+      "backend": "numpy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 20.11626963799995,
+      "cell_updates_per_second": 208503.0711696613,
+      "backend": "numpy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.016288855000084368,
+      "cell_updates_per_second": 251460.2775934088,
+      "backend": "cupy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.01616340600003241,
+      "cell_updates_per_second": 1013647.7423116853,
+      "backend": "cupy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.016315760999987106,
+      "cell_updates_per_second": 4016729.5904893307,
+      "backend": "cupy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.016321165000135807,
+      "cell_updates_per_second": 16061598.543842841,
+      "backend": "cupy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 0.02478679299997566,
+      "cell_updates_per_second": 42303818.811938666,
+      "backend": "cupy"
+    },
+    {
+      "case": "straight-channel",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 0.09115105399996537,
+      "cell_updates_per_second": 46014871.09519977,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.020655495000028168,
+      "cell_updates_per_second": 198300.74273186937,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.0209646010000597,
+      "cell_updates_per_second": 781507.8379003417,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.020824585999889678,
+      "cell_updates_per_second": 3147049.3579246756,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.020796505000134857,
+      "cell_updates_per_second": 12605194.959359763,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 0.026413770000090153,
+      "cell_updates_per_second": 39698081.72011875,
+      "backend": "cupy"
+    },
+    {
+      "case": "compression-corner",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 0.09238237199997457,
+      "cell_updates_per_second": 45401562.10755397,
+      "backend": "cupy"
+    }
+  ]
+}

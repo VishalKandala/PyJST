@@ -225,8 +225,49 @@ result = solve(freestream_initial_state(grid, case), grid, case, backend="cupy")
 
 The NumPy path remains available with `backend="numpy"` (or by omitting the
 argument). The `gpu` extra targets CUDA 12; use the matching CuPy wheel for a
-different CUDA runtime. GPU timing results will be collected in Colab and
-compared with the CPU baseline above.
+different CUDA runtime. Colab GPU timing results are documented below beside
+the corresponding CPU measurements.
+
+### Colab A100 CPU/GPU comparison
+
+The optional CuPy path was measured in one Google Colab GPU-runtime session on
+an NVIDIA A100-SXM4-40GB using CuPy 14.0.1. Both the NumPy and CuPy runs use
+the same four-stage pseudo-time iteration and the same case definitions. CPU
+measurements are the median of two timed iterations; GPU measurements are the
+median of three, with CUDA-stream synchronization and one warm-up iteration.
+One-time mesh setup and host/device copies are excluded from the GPU timing so
+the measurement represents the steady iteration loop used in a real solve.
+Full values and runtime metadata are retained in
+[`colab-a100-cpu-gpu-scaling.json`](docs/performance/colab-a100-cpu-gpu-scaling.json)
+and [`colab-a100-run-metadata.json`](docs/performance/colab-a100-run-metadata.json).
+
+| Grid | Straight channel CPU → GPU | Speedup | Compression corner CPU → GPU | Speedup |
+| --- | ---: | ---: | ---: | ---: |
+| 512² | 0.794 s → 0.0163 s | 48.7× | 0.871 s → 0.0208 s | 41.9× |
+| 1024² | 4.078 s → 0.0248 s | 164.5× | 4.410 s → 0.0264 s | 167.0× |
+| 2048² | 18.824 s → 0.0912 s | 206.5× | 20.116 s → 0.0924 s | 217.8× |
+
+![Colab A100 CPU and GPU iteration scaling](docs/assets/cpu-gpu-scaling-colab-a100.png)
+
+The scaling pattern is expected for this solver. Each RK stage applies
+elementwise primitive-variable recovery plus structured nearest-neighbour flux
+and JST stencil operations over every cell and face. At 64², CUDA launch and
+dispatch overhead dominates, so NumPy remains competitive. Once there are
+hundreds of thousands of cells, the CuPy arrays expose enough independent
+stencil work to saturate the GPU; device-resident state also avoids per-stage
+host/device transfer. At 2048², throughput reaches roughly 45--46 million
+cell updates/s on the A100, compared with roughly 0.21--0.22 million for the
+Colab CPU path. The nearly flat GPU iteration time through 512² is the
+fixed-overhead regime; the later rise reflects the transition toward a
+memory-bandwidth-limited stencil workload. These results are hardware-specific
+but establish a reproducible baseline for the CuPy backend.
+
+The final pressure fields are visually consistent between backends after the
+same 500-iteration compression-corner run:
+
+| NumPy CPU | CuPy GPU |
+| --- | --- |
+| ![CPU compression-corner field](docs/assets/compression-corner-cpu-colab.png) | ![GPU compression-corner field](docs/assets/compression-corner-gpu-colab.png) |
 
 ## Configuration and control knobs
 

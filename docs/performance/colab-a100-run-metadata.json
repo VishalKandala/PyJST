@@ -1,0 +1,7 @@
+{
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "cupy": "14.0.1",
+  "cpu_repeats": 2,
+  "gpu_repeats": 3,
+  "warmup_iterations": 1
+}
