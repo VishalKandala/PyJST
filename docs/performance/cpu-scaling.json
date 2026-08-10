@@ -1,0 +1,98 @@
+{
+  "benchmark": "PyJST four-stage pseudo-time iteration (median wall-clock time)",
+  "runtime": {
+    "python": "3.10.15 (main, Sep  7 2024, 18:35:33) [GCC 9.4.0]",
+    "numpy": "2.2.6",
+    "platform": "Linux-5.15.153.1-microsoft-standard-WSL2-x86_64-with-glibc2.31"
+  },
+  "measurement": {
+    "repeats": 2,
+    "warmup_iterations": 1
+  },
+  "samples": [
+    {
+      "case": "straight-channel",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.025538291999964713,
+      "cell_updates_per_second": 160386.6069040819
+    },
+    {
+      "case": "straight-channel",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.06341520250043686,
+      "cell_updates_per_second": 258360.76136297337
+    },
+    {
+      "case": "straight-channel",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.2058227934999195,
+      "cell_updates_per_second": 318409.8266552078
+    },
+    {
+      "case": "straight-channel",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.8429804155002785,
+      "cell_updates_per_second": 310972.8235435066
+    },
+    {
+      "case": "straight-channel",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 3.3980209544997706,
+      "cell_updates_per_second": 308584.32424068527
+    },
+    {
+      "case": "straight-channel",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 14.885022385999946,
+      "cell_updates_per_second": 281780.16070334817
+    },
+    {
+      "case": "compression-corner",
+      "nx": 64,
+      "ny": 64,
+      "seconds_per_iteration": 0.010314301500329748,
+      "cell_updates_per_second": 397118.50578238873
+    },
+    {
+      "case": "compression-corner",
+      "nx": 128,
+      "ny": 128,
+      "seconds_per_iteration": 0.03355820449996827,
+      "cell_updates_per_second": 488226.3590716092
+    },
+    {
+      "case": "compression-corner",
+      "nx": 256,
+      "ny": 256,
+      "seconds_per_iteration": 0.15797947099963494,
+      "cell_updates_per_second": 414838.710278701
+    },
+    {
+      "case": "compression-corner",
+      "nx": 512,
+      "ny": 512,
+      "seconds_per_iteration": 0.8443042779999814,
+      "cell_updates_per_second": 310485.2205901126
+    },
+    {
+      "case": "compression-corner",
+      "nx": 1024,
+      "ny": 1024,
+      "seconds_per_iteration": 3.477700394999829,
+      "cell_updates_per_second": 301514.1849216288
+    },
+    {
+      "case": "compression-corner",
+      "nx": 2048,
+      "ny": 2048,
+      "seconds_per_iteration": 17.453989998999987,
+      "cell_updates_per_second": 240306.313928237
+    }
+  ]
+}

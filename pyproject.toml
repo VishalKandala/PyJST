@@ -11,6 +11,7 @@ dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 viz = ["matplotlib>=3.7"]
+gpu = ["cupy-cuda12x>=13.0"]
 
 [tool.setuptools.packages.find]
 include = ["pyjst*"]
