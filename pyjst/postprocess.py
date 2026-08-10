@@ -63,6 +63,15 @@ def _field_mesh(grid: Grid) -> tuple[np.ndarray, np.ndarray, bool]:
     return x, y, False
 
 
+def _field_centres(grid: Grid) -> tuple[np.ndarray, np.ndarray]:
+    """Return physical-cell centres for Cartesian or body-fitted fields."""
+    if isinstance(grid, CartesianGrid):
+        return grid.cell_centres()
+    vertices = grid.vertices
+    centres = 0.25 * (vertices[:-1, :-1] + vertices[1:, :-1] + vertices[:-1, 1:] + vertices[1:, 1:])
+    return centres[..., 0], centres[..., 1]
+
+
 def plot_solution(
     result: SolverResult, grid: Grid, case: SolverCase, *, title: str | None = None
 ) -> Figure:
@@ -110,6 +119,41 @@ def save_solution_figure(
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     figure = plot_solution(result, grid, case, title=title)
+    figure.savefig(destination, dpi=dpi, bbox_inches="tight", facecolor="white")
+    _pyplot().close(figure)
+    return destination.resolve()
+
+
+def plot_pressure_contours(
+    result: SolverResult, grid: Grid, case: SolverCase, *, levels: int = 32, title: str | None = None
+) -> Figure:
+    """Create a filled static-pressure-ratio contour plot on physical cells."""
+    if levels < 2:
+        raise ValueError("levels must be at least 2")
+    plt = _pyplot()
+    x, y = _field_centres(grid)
+    values = pressure_ratio(result.conservative, grid, case)
+    figure, axis = plt.subplots(figsize=(8, 3.8), constrained_layout=True)
+    contours = axis.contourf(x.T, y.T, values.T, levels=levels, cmap="viridis")
+    axis.contour(x.T, y.T, values.T, levels=contours.levels, colors="white", linewidths=0.35, alpha=0.45)
+    if isinstance(grid, BodyFittedGrid):
+        axis.plot(grid.vertices[:, 0, 0], grid.vertices[:, 0, 1], color="black", linewidth=1.3)
+    figure.colorbar(contours, ax=axis, label=r"$p / p_\infty$")
+    axis.set(xlabel="x", ylabel="y", title=title or "Static pressure-ratio contours")
+    axis.set_aspect("equal")
+    return figure
+
+
+def save_pressure_contour_figure(
+    result: SolverResult, grid: Grid, case: SolverCase, output: str | Path, *, levels: int = 32,
+    title: str | None = None, dpi: int = 300
+) -> Path:
+    """Save :func:`plot_pressure_contours` as a high-resolution PNG."""
+    if dpi < 1:
+        raise ValueError("dpi must be positive")
+    destination = Path(output)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    figure = plot_pressure_contours(result, grid, case, levels=levels, title=title)
     figure.savefig(destination, dpi=dpi, bbox_inches="tight", facecolor="white")
     _pyplot().close(figure)
     return destination.resolve()

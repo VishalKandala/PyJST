@@ -142,7 +142,14 @@ planned grid-refined validation study.
 
 ## Post-processing and representative solutions
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/main/notebooks/pyjst_demo.ipynb)
+[![CPU/GPU performance demo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/main/notebooks/pyjst_performance_demo.ipynb)
+[![Configurable GPU validation demo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/main/notebooks/pyjst_gpu_validation_demo.ipynb)
+
+The performance notebook produces only the four-series NumPy/CuPy scaling
+comparison. The validation notebook exposes grid, flow, numerical, and
+convergence controls and exports high-resolution pressure contours plus its
+run metadata. They are intentionally separate so performance measurements and
+physical-case evidence do not get mixed.
 
 The optional `viz` extra adds Matplotlib-based post-processing. The module
 extracts physical cells (excluding ghost layers), computes pressure ratio and
