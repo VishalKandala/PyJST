@@ -102,13 +102,15 @@ def plot_solution(
 
 
 def save_solution_figure(
-    result: SolverResult, grid: Grid, case: SolverCase, output: str | Path, *, title: str | None = None
+    result: SolverResult, grid: Grid, case: SolverCase, output: str | Path, *, title: str | None = None, dpi: int = 300
 ) -> Path:
-    """Save :func:`plot_solution` as a PNG and return its resolved path."""
+    """Save :func:`plot_solution` as a high-resolution PNG and return its path."""
+    if dpi < 1:
+        raise ValueError("dpi must be positive")
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     figure = plot_solution(result, grid, case, title=title)
-    figure.savefig(destination, dpi=180, bbox_inches="tight")
+    figure.savefig(destination, dpi=dpi, bbox_inches="tight", facecolor="white")
     _pyplot().close(figure)
     return destination.resolve()
 

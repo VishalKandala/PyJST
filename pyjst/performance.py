@@ -136,12 +136,14 @@ def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
     return figure
 
 
-def save_benchmark_figure(samples: list[PerformanceSample], output: str | Path) -> Path:
+def save_benchmark_figure(samples: list[PerformanceSample], output: str | Path, *, dpi: int = 300) -> Path:
     """Save a backend-aware benchmark plot as a PNG and return its path."""
+    if dpi < 1:
+        raise ValueError("dpi must be positive")
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     figure = plot_benchmark_results(samples)
-    figure.savefig(destination, dpi=180, bbox_inches="tight")
+    figure.savefig(destination, dpi=dpi, bbox_inches="tight", facecolor="white")
     _pyplot().close(figure)
     return destination.resolve()
 
