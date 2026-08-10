@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyjst"
+version = "0.1.0"
+description = "A structured-grid Euler solver using JST artificial dissipation"
+requires-python = ">=3.12"
+dependencies = ["numpy>=1.24"]
+
+[tool.setuptools.packages.find]
+include = ["pyjst*"]
+
+[project.scripts]
+pyjst = "pyjst.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
