@@ -120,9 +120,6 @@ def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
     plt = _pyplot()
     figure, (time_axis, throughput_axis) = plt.subplots(1, 2, figsize=(10.5, 4.1), constrained_layout=True)
     labels = {"straight-channel": "Straight channel", "compression-corner": "Compression corner"}
-    backend_names = {"numpy": "CPU", "cupy": "GPU"}
-    backends = {sample.backend for sample in samples}
-    title_prefix = backend_names.get(next(iter(backends)), next(iter(backends)).upper()) if len(backends) == 1 else "Backend"
     for (backend, case_name), color in zip(sorted({(sample.backend, sample.case) for sample in samples}), ("#4c72b0", "#c44e52", "#55a868", "#8172b2")):
         case_samples = sorted((sample for sample in samples if sample.case == case_name and sample.backend == backend), key=lambda item: item.nx * item.ny)
         if not case_samples:
@@ -131,8 +128,8 @@ def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
         label = f"{labels[case_name]} ({backend.upper()})"
         time_axis.loglog(cells, [sample.seconds_per_iteration for sample in case_samples], "o-", color=color, label=label)
         throughput_axis.semilogx(cells, [sample.cell_updates_per_second / 1.0e6 for sample in case_samples], "o-", color=color, label=label)
-    time_axis.set(xlabel="Physical cells", ylabel="Seconds per pseudo-time iteration", title=f"{title_prefix} iteration cost")
-    throughput_axis.set(xlabel="Physical cells", ylabel="Million cell updates / s", title=f"{title_prefix} throughput")
+    time_axis.set(xlabel="Physical cells", ylabel="Seconds per pseudo-time iteration", title="Iteration cost")
+    throughput_axis.set(xlabel="Physical cells", ylabel="Million cell updates / s", title="Throughput")
     for axis in (time_axis, throughput_axis):
         axis.grid(True, which="both", alpha=0.3)
         axis.legend()
