@@ -142,7 +142,7 @@ planned grid-refined validation study.
 
 ## Post-processing and representative solutions
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/master/notebooks/pyjst_demo.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/main/notebooks/pyjst_demo.ipynb)
 
 The optional `viz` extra adds Matplotlib-based post-processing. The module
 extracts physical cells (excluding ghost layers), computes pressure ratio and
