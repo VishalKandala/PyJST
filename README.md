@@ -140,6 +140,38 @@ The compression-corner command is a numerical demonstration. Its printed
 residual establishes pseudo-time progress; it is not yet a substitute for the
 planned grid-refined validation study.
 
+## Post-processing and representative solutions
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/VishalKandala/PyJST/blob/master/notebooks/pyjst_demo.ipynb)
+
+The optional `viz` extra adds Matplotlib-based post-processing. The module
+extracts physical cells (excluding ghost layers), computes pressure ratio and
+Mach number, and produces a summary figure containing the pressure field and
+residual history. Generate fresh figures with:
+
+```bash
+python -m pip install -e '.[viz]'
+python -m pyjst.postprocess --case straight-channel --iterations 1 \
+    --output docs/figures/straight-channel.png
+python -m pyjst.postprocess --case compression-corner --iterations 500 \
+    --output docs/figures/compression-corner.png
+```
+
+### Straight channel: uniform Mach-2 flow
+
+The straight channel preserves the initialized uniform pressure exactly; its
+zero residual is an exact-preservation verification result.
+
+![Straight-channel pressure and convergence](docs/figures/straight-channel.png)
+
+### Mach-2, 10-degree compression corner
+
+After 500 pseudo-time iterations, the body-fitted solution shows the expected
+pressure rise and oblique shock issuing from the corner. This is a visual
+demonstration, not a converged validation result.
+
+![Compression-corner pressure and convergence](docs/figures/compression-corner.png)
+
 ## Configuration and control knobs
 
 The command-line runner exposes the most useful case controls:

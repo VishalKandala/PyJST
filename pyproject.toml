@@ -9,6 +9,9 @@ description = "A structured-grid Euler solver using JST artificial dissipation"
 requires-python = ">=3.12"
 dependencies = ["numpy>=1.24"]
 
+[project.optional-dependencies]
+viz = ["matplotlib>=3.7"]
+
 [tool.setuptools.packages.find]
 include = ["pyjst*"]
 
