@@ -114,12 +114,15 @@ def _pyplot():
 
 
 def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
-    """Plot iteration cost and throughput against physical cell count."""
+    """Plot backend-aware iteration cost and throughput against cell count."""
     if not samples:
         raise ValueError("samples must not be empty")
     plt = _pyplot()
     figure, (time_axis, throughput_axis) = plt.subplots(1, 2, figsize=(10.5, 4.1), constrained_layout=True)
     labels = {"straight-channel": "Straight channel", "compression-corner": "Compression corner"}
+    backend_names = {"numpy": "CPU", "cupy": "GPU"}
+    backends = {sample.backend for sample in samples}
+    title_prefix = backend_names.get(next(iter(backends)), next(iter(backends)).upper()) if len(backends) == 1 else "Backend"
     for (backend, case_name), color in zip(sorted({(sample.backend, sample.case) for sample in samples}), ("#4c72b0", "#c44e52", "#55a868", "#8172b2")):
         case_samples = sorted((sample for sample in samples if sample.case == case_name and sample.backend == backend), key=lambda item: item.nx * item.ny)
         if not case_samples:
@@ -128,8 +131,8 @@ def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
         label = f"{labels[case_name]} ({backend.upper()})"
         time_axis.loglog(cells, [sample.seconds_per_iteration for sample in case_samples], "o-", color=color, label=label)
         throughput_axis.semilogx(cells, [sample.cell_updates_per_second / 1.0e6 for sample in case_samples], "o-", color=color, label=label)
-    time_axis.set(xlabel="Physical cells", ylabel="Seconds per pseudo-time iteration", title="CPU iteration cost")
-    throughput_axis.set(xlabel="Physical cells", ylabel="Million cell updates / s", title="CPU throughput")
+    time_axis.set(xlabel="Physical cells", ylabel="Seconds per pseudo-time iteration", title=f"{title_prefix} iteration cost")
+    throughput_axis.set(xlabel="Physical cells", ylabel="Million cell updates / s", title=f"{title_prefix} throughput")
     for axis in (time_axis, throughput_axis):
         axis.grid(True, which="both", alpha=0.3)
         axis.legend()
@@ -137,7 +140,7 @@ def plot_benchmark_results(samples: list[PerformanceSample]) -> Figure:
 
 
 def save_benchmark_figure(samples: list[PerformanceSample], output: str | Path) -> Path:
-    """Save a CPU benchmark plot as a PNG and return its resolved path."""
+    """Save a backend-aware benchmark plot as a PNG and return its path."""
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     figure = plot_benchmark_results(samples)
@@ -147,7 +150,7 @@ def save_benchmark_figure(samples: list[PerformanceSample], output: str | Path) 
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Benchmark PyJST CPU iteration scaling.")
+    parser = argparse.ArgumentParser(description="Benchmark PyJST iteration scaling on a selected backend.")
     parser.add_argument("--resolutions", type=int, nargs="+", default=(64, 128, 256, 512, 1024, 2048))
     parser.add_argument("--repeats", type=int, default=2)
     parser.add_argument("--warmup-iterations", type=int, default=1)
