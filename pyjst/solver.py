@@ -109,12 +109,19 @@ def advance_one_iteration(
     return stage, first_residual_norm
 
 
-def solve(conservative: np.ndarray, grid: CartesianGrid | BodyFittedGrid, case: SolverCase) -> SolverResult:
+def solve(
+    conservative: np.ndarray, grid: CartesianGrid | BodyFittedGrid, case: SolverCase, *, backend: str = "numpy"
+) -> SolverResult:
     """Pseudo-time march to the configured residual tolerance.
 
     The input is never mutated.  The recorded residual is the maximum absolute
     first-stage residual per cell area for each outer iteration.
     """
+    if backend == "cupy":
+        from .cupy_solver import solve_cupy
+        return solve_cupy(conservative, grid, case)
+    if backend != "numpy":
+        raise ValueError("backend must be 'numpy' or 'cupy'")
     state = conservative.copy()
     normalized_history: list[float] = []
     absolute_history: list[float] = []

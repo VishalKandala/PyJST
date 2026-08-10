@@ -172,6 +172,62 @@ demonstration, not a converged validation result.
 
 ![Compression-corner pressure and convergence](docs/figures/compression-corner.png)
 
+## CPU performance baseline
+
+The figure below is the pre-GPU baseline for one complete four-stage
+pseudo-time iteration. Both representative cases were measured at square
+64², 128², 256², 512², 1024², and 2048² grids. Each point is the median of two timed
+iterations after one warm-up iteration; it includes boundary treatment, local
+time-step calculation, convective residual, JST dissipation, and the RK state
+update, but excludes setup, plotting, and file I/O. The full machine/runtime
+metadata and unrounded measurements are stored in
+[`cpu-scaling.json`](docs/performance/cpu-scaling.json).
+
+| Grid | Straight channel | Compression corner |
+| --- | ---: | ---: |
+| 512² iteration time | 0.843 s | 0.844 s |
+| 512² throughput | 0.311 M cell updates/s | 0.310 M cell updates/s |
+| 1024² iteration time | 3.398 s | 3.478 s |
+| 1024² throughput | 0.309 M cell updates/s | 0.302 M cell updates/s |
+| 2048² iteration time | 14.885 s | 17.454 s |
+| 2048² throughput | 0.282 M cell updates/s | 0.240 M cell updates/s |
+
+![CPU iteration scaling and throughput](docs/figures/cpu-scaling.png)
+
+Regenerate this baseline on a target machine with:
+
+```bash
+MPLBACKEND=Agg python -m pyjst.performance --repeats 2 --warmup-iterations 1 \
+    --results docs/performance/cpu-scaling.json \
+    --figure docs/figures/cpu-scaling.png
+```
+
+These are CPU measurements on the recorded host, not portable performance
+claims. The same benchmark will be used to report GPU speedup after a device
+backend is added.
+
+## Optional CuPy GPU backend
+
+PyJST retains NumPy as its default CPU backend. An experimental CuPy backend
+now executes the complete pseudo-time solve on a CUDA device while keeping
+state and static mesh geometry on-device across RK stages; it returns the final
+state to the host so the existing post-processing tools still work.
+
+```bash
+python -m pip install -e '.[gpu,viz]'
+```
+
+Use it by selecting the backend explicitly:
+
+```python
+result = solve(freestream_initial_state(grid, case), grid, case, backend="cupy")
+```
+
+The NumPy path remains available with `backend="numpy"` (or by omitting the
+argument). The `gpu` extra targets CUDA 12; use the matching CuPy wheel for a
+different CUDA runtime. GPU timing results will be collected in Colab and
+compared with the CPU baseline above.
+
 ## Configuration and control knobs
 
 The command-line runner exposes the most useful case controls:

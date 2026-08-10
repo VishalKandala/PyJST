@@ -28,6 +28,17 @@ class SolverTests(unittest.TestCase):
         np.testing.assert_array_equal(result.absolute_residual_history, [0.0])
         np.testing.assert_array_equal(result.conservative, initial)
 
+    def test_numpy_backend_is_the_explicit_default(self) -> None:
+        initial = freestream_initial_state(self.grid, self.case)
+        result = solve(initial, self.grid, self.case, backend="numpy")
+
+        self.assertTrue(result.converged)
+
+    def test_unknown_backend_is_rejected(self) -> None:
+        initial = freestream_initial_state(self.grid, self.case)
+        with self.assertRaisesRegex(ValueError, "backend"):
+            solve(initial, self.grid, self.case, backend="unsupported")
+
     def test_cfl_ramp_reaches_the_configured_limit(self) -> None:
         case = replace(self.case, numerics=JSTParameters(cfl=0.5, cfl_initial=0.1, cfl_ramp_iterations=4))
         self.assertEqual(iteration_cfl(case, 1), 0.1)
